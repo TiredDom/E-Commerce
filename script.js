@@ -26,4 +26,28 @@ document.addEventListener("DOMContentLoaded", function() {
       observer.observe(card);
     });
   });
-  
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("login-btn").addEventListener("click", function () {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        fetch("http://localhost:8080/api/auth/login", { // Adjust the endpoint
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Login successful!");
+                window.location.href = "index.html"; // Redirect to home page
+            } else {
+                alert("Invalid email or password.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
