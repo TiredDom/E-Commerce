@@ -1,13 +1,12 @@
-package com.eight.shop.eight;
+package com.eight.eight;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class EightApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(EightApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(EightApplication.class, args);
+    }
 }
+
