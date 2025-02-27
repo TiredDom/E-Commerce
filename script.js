@@ -20,6 +20,35 @@ document.addEventListener("DOMContentLoaded", function() {
   productCards.forEach(card => {
     observer.observe(card);
   });
+
+  function loadProductsFromStorage() {
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    const productGrid = document.querySelector(".product-grid");
+    if (!productGrid) return;
+    products.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <div class="product-image-placeholder">
+          <img src="${product.image}" alt="${product.title}" />
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">${product.title}</h3>
+          <div class="product-footer">
+            <span class="product-price">₱${product.price}</span>
+            <div class="product-buttons">
+              <button class="add-to-cart-btn">Add to Cart</button>
+              <button class="buy-btn">Buy</button>
+            </div>
+          </div>
+        </div>
+      `;
+      productGrid.appendChild(card);
+      observer.observe(card); // Observe the new card for animation
+    });
+  }
+  loadProductsFromStorage();
+  
   var userEmail = localStorage.getItem("userEmail");
   var userIcon = document.getElementById("user-icon");
   var dropdown = document.getElementById("user-dropdown");
