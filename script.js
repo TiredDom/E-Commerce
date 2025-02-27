@@ -40,7 +40,12 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(data => {
           if (data.success) {
               alert("Login successful! Role: " + data.role);
-              window.location.href = "index.html";
+              if(data.role === "ADMIN"){
+                window.location.href = "dashboard.html";
+              }else{
+                window.location.href = "index.html";
+              }
+
           } else {
               alert("Login failed: " + data.message);
           }
@@ -64,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(response => response.json())
       .then(data => {
           if (data.success) {
-              alert("Registration successful! Redirecting to login...");
               document.getElementById("check").checked = false;
           } else {
               alert("Registration failed: " + data.message);
@@ -73,3 +77,4 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(error => console.error("Error:", error));
   });
 });
+
