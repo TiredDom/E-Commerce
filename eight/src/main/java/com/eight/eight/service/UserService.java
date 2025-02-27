@@ -8,31 +8,24 @@ import java.util.Map;
 
 @Service
 public class UserService {
-
-    // In-memory store for users keyed by email
     private final Map<String, User> users = new ConcurrentHashMap<>();
 
     public AuthResponse register(RegisterRequest request) {
         AuthResponse response = new AuthResponse();
-
-        // Validate matching passwords
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             response.setSuccess(false);
             response.setMessage("Passwords do not match.");
             return response;
         }
 
-        // Check if user already exists
         if (users.containsKey(request.getEmail())) {
             response.setSuccess(false);
             response.setMessage("User already exists.");
             return response;
         }
 
-        // Debug: determine role based on email extension
         String role = request.getEmail().endsWith("@eight.com") ? "ADMIN" : "CUSTOMER";
 
-        // Create and store the new user
         User newUser = new User(request.getEmail(), request.getPassword(), role);
         users.put(newUser.getEmail(), newUser);
 

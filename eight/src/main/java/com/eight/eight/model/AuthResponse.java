@@ -7,6 +7,6 @@ import lombok.Data;
 public class AuthResponse {
     private boolean success;
     private String message;
-    private String role;  // Optional: returns the user role upon successful login/register
+    private String role;
 }
 
