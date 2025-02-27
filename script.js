@@ -13,10 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // When the element is in view, add the animation class.
         entry.target.classList.add('animate');
       } else {
-        // When the element is out of view, remove the animation class.
         entry.target.classList.remove('animate');
       }
     });
@@ -26,9 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
     observer.observe(card);
   });
 
-  // Login functionality
   document.getElementById("login-btn").addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default form submission
+      event.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -43,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(data => {
           if (data.success) {
               alert("Login successful! Role: " + data.role);
-              window.location.href = "index.html"; // Redirect to home page
+              window.location.href = "index.html";
           } else {
               alert("Login failed: " + data.message);
           }
@@ -51,9 +48,8 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(error => console.error("Error:", error));
   });
 
-  // Registration functionality
   document.getElementById("register-btn").addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default form submission
+      event.preventDefault();
       const email = document.getElementById("reg-email").value;
       const password = document.getElementById("reg-password").value;
       const confirmPassword = document.getElementById("reg-confirm-password").value;
@@ -68,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(response => response.json())
       .then(data => {
           if (data.success) {
-              alert("Registration successful! Role: " + data.role);
-              // Optionally switch to login form or redirect
+              alert("Registration successful! Redirecting to login...");
+              document.getElementById("check").checked = false;
           } else {
               alert("Registration failed: " + data.message);
           }
