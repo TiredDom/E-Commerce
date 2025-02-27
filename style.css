@@ -67,6 +67,7 @@ body {
   
   .nav-right {
     text-align: right;
+    position: relative;
   }
   
   .nav-left a,
@@ -341,4 +342,35 @@ body {
     font-weight: bold;
     color: #000;
   }
+
+  .dropdown {
+    position: absolute;
+    top: 60px; /* Adjust to position it right below the header */
+    right: 10px; /* Adjust based on your layout */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none; /* hidden by default */
+    z-index: 1001;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
   
+  .dropdown p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .dropdown button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .dropdown button:hover {
+    background-color: #444;
+  }
