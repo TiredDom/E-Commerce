@@ -21,33 +21,39 @@ document.addEventListener("DOMContentLoaded", function() {
     observer.observe(card);
   });
 
-  function loadProductsFromStorage() {
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-    const productGrid = document.querySelector(".product-grid");
-    if (!productGrid) return;
-    products.forEach(product => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <div class="product-image-placeholder">
-          <img src="${product.image}" alt="${product.title}" />
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">${product.title}</h3>
-          <div class="product-footer">
-            <span class="product-price">₱${product.price}</span>
-            <div class="product-buttons">
-              <button class="add-to-cart-btn">Add to Cart</button>
-              <button class="buy-btn">Buy</button>
+  function loadProductsFromBackend() {
+    fetch("http://localhost:8080/api/products")
+      .then(response => response.json())
+      .then(products => {
+        const productGrid = document.querySelector(".product-grid");
+        if (!productGrid) return;
+        // productGrid.innerHTML = "";
+
+        products.forEach(product => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+            <div class="product-image-placeholder">
+              <img src="${product.image}" alt="${product.title}" />
             </div>
-          </div>
-        </div>
-      `;
-      productGrid.appendChild(card);
-      observer.observe(card); // Observe the new card for animation
-    });
+            <div class="product-info">
+              <h3 class="product-title">${product.title}</h3>
+              <div class="product-footer">
+                <span class="product-price">₱${product.price}</span>
+                <div class="product-buttons">
+                  <button class="add-to-cart-btn">Add to Cart</button>
+                  <button class="buy-btn">Buy</button>
+                </div>
+              </div>
+            </div>
+          `;
+          productGrid.appendChild(card);
+          observer.observe(card);
+        });
+      })
+      .catch(error => console.error("Error loading products:", error));
   }
-  loadProductsFromStorage();
+  loadProductsFromBackend();
   
   var userEmail = localStorage.getItem("userEmail");
   var userIcon = document.getElementById("user-icon");

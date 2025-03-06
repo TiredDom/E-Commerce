@@ -1,33 +1,36 @@
 package com.eight.eight.service;
 
 import com.eight.eight.model.*;
+import com.eight.eight.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private final Map<String, User> users = new ConcurrentHashMap<>();
+
+    private final UserRepository userRepository;
 
     public AuthResponse register(RegisterRequest request) {
         AuthResponse response = new AuthResponse();
+
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             response.setSuccess(false);
             response.setMessage("Passwords do not match.");
             return response;
         }
 
-        if (users.containsKey(request.getEmail())) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             response.setSuccess(false);
             response.setMessage("User already exists.");
             return response;
         }
 
         String role = request.getEmail().endsWith("@eight.com") ? "ADMIN" : "CUSTOMER";
-
-        User newUser = new User(request.getEmail(), request.getPassword(), role);
-        users.put(newUser.getEmail(), newUser);
+        User newUser = new User(null, request.getEmail(), request.getPassword(), role);
+        userRepository.save(newUser);
 
         response.setSuccess(true);
         response.setMessage("User registered successfully as " + role + ".");
@@ -37,14 +40,15 @@ public class UserService {
 
     public AuthResponse login(LoginRequest request) {
         AuthResponse response = new AuthResponse();
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 
-        User user = users.get(request.getEmail());
-        if (user == null) {
+        if (userOptional.isEmpty()) {
             response.setSuccess(false);
             response.setMessage("User not found.");
             return response;
         }
 
+        User user = userOptional.get();
         if (!user.getPassword().equals(request.getPassword())) {
             response.setSuccess(false);
             response.setMessage("Invalid password.");
@@ -57,4 +61,3 @@ public class UserService {
         return response;
     }
 }
-
