@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .about-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    min-height: 100vh;
+  }
+  
+  .about-text,
+  .about-image {
+    padding: 20px;
+  }
+  
+  .about-text {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    justify-items: start;
+  }
+  
+  .about-text p:only-child {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  
+  .about-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .about-image img {
+    max-width: 80%;
+    height: auto;
+  }
+  
+  main {
+    padding-top: 20px;
+  }
+  
