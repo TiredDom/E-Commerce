@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Dynamically set the API base URL
+  const API_BASE_URL = window.location.hostname === "localhost"
+    ? "http://localhost:8080"
+    : "https://eight-app-latest.onrender.com";
+
   const sidebarLinks = document.querySelectorAll(".admin-sidebar a");
   const contentSections = document.querySelectorAll(".content-section");
   sidebarLinks.forEach(link => {
@@ -66,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     const productData = { title, price: parseFloat(price), image: imageData };
-    fetch("http://localhost:8080/api/products/add", {
+    fetch(`${API_BASE_URL}/api/products/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(productData)
@@ -83,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
   function loadProducts() {
-    fetch("http://localhost:8080/api/products")
+    fetch(`${API_BASE_URL}/api/products`)
       .then(response => response.json())
       .then(products => {
         const inventoryList = document.getElementById("inventory-list");
@@ -123,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function editProduct(event) {
     const productId = event.target.getAttribute("data-id");
     
-    fetch(`http://localhost:8080/api/products/${productId}`)
+    fetch(`${API_BASE_URL}/api/products/${productId}`)
       .then(response => response.json())
       .then(product => {
         const newTitle = prompt("Enter new product name:", product.title);
@@ -136,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             image: product.image 
           };
           
-          fetch(`http://localhost:8080/api/products/update/${productId}`, {
+          fetch(`${API_BASE_URL}/api/products/update/${productId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedProduct)
@@ -152,11 +157,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => console.error("Error fetching product:", error));
   }
   
-  
   function deleteProduct(event) {
     const productId = event.target.getAttribute("data-id");
     if (confirm("Are you sure you want to delete this product?")) {
-      fetch(`http://localhost:8080/api/products/delete/${productId}`, {
+      fetch(`${API_BASE_URL}/api/products/delete/${productId}`, {
         method: "DELETE"
       })
       .then(() => {
@@ -169,4 +173,3 @@ document.addEventListener("DOMContentLoaded", function () {
   
   loadProducts();
 });
-
