@@ -7,11 +7,6 @@ function toggleMenu() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Dynamically set the API base URL
-  const API_BASE_URL = window.location.hostname === "localhost"
-    ? "http://localhost:8080"
-    : "https://eight-app-latest.onrender.com";
-
   const productCards = document.querySelectorAll('.product-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -27,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   function loadProductsFromBackend() {
-    fetch(`${API_BASE_URL}/api/products`)
+    fetch("http://localhost:8080/api/products")
       .then(response => response.json())
       .then(products => {
         const productGrid = document.querySelector(".product-grid");
@@ -85,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
     event.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    fetch(`${API_BASE_URL}/api/auth/login`, {
+    fetch("http://localhost:8080/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -111,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const email = document.getElementById("reg-email").value;
     const password = document.getElementById("reg-password").value;
     const confirmPassword = document.getElementById("reg-confirm-password").value;
-    fetch(`${API_BASE_URL}/api/auth/register`, {
+    fetch("http://localhost:8080/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, confirmPassword })
